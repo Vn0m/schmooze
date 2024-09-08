@@ -1,8 +1,6 @@
-'use client'
-
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
 import { auth } from '../../../../lib/firebase'; 
 import { signInWithCustomToken } from 'firebase/auth';
 import { db } from '../../../../lib/firebase'; 
@@ -15,9 +13,9 @@ const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI!;
 const CallbackPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { setAccessToken, setRefreshToken, setExpiresIn } = useSpotifyAuth();
 
   useEffect(() => {
-    // get the token for each user registering
     const fetchAccessToken = async (code: string) => {
       try {
         const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -39,8 +37,18 @@ const CallbackPage = () => {
 
         const data = await response.json();
         const accessToken = data.access_token;
+        const refreshToken = data.refresh_token;
+        const expiresIn = Date.now() + (data.expires_in * 1000);
 
-        // fetch user info with token
+        // store the token in the global context and localStorage
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+        setExpiresIn(expiresIn);
+        localStorage.setItem('spotify_access_token', accessToken);
+        localStorage.setItem('spotify_refresh_token', refreshToken);
+        localStorage.setItem('spotify_expires_in', expiresIn.toString());
+
+        // fetch profile
         const userProfileResponse = await fetch('https://api.spotify.com/v1/me', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -53,7 +61,7 @@ const CallbackPage = () => {
 
         const userProfile = await userProfileResponse.json();
 
-        // create custom token and sign in
+        // create the custom token and sign in
         const customTokenResponse = await fetch('/api/createCustomToken', {
           method: 'POST',
           headers: {
@@ -70,8 +78,8 @@ const CallbackPage = () => {
 
         await signInWithCustomToken(auth, customTokenData.token);
 
-        // store user data in Firestore
-        await setDoc(doc(db, "users", userProfile.id), {
+        // store it in firestore
+        await setDoc(doc(db, 'users', userProfile.id), {
           name: userProfile.display_name,
           email: userProfile.email,
           profileUrl: userProfile.images[0]?.url || null,
@@ -88,7 +96,7 @@ const CallbackPage = () => {
     if (code) {
       fetchAccessToken(code);
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, setAccessToken, setRefreshToken, setExpiresIn]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
