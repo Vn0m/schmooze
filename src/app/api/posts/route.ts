@@ -45,7 +45,9 @@ export async function POST(req: NextRequest) {
       title: title,
       time: new Date().toISOString(), // Add timestamp
       userId: userId,
-      likes: 0
+      likes: 0,
+      dislikes: 0,
+      comments: []
     });
 
     return NextResponse.json({ id: docRef.id, title, content, userId }, { status: 201 });
