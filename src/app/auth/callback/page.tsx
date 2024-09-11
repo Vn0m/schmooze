@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
@@ -40,13 +42,10 @@ const CallbackPage = () => {
         const refreshToken = data.refresh_token;
         const expiresIn = Date.now() + (data.expires_in * 1000);
 
-        // store the token in the global context and localStorage
+        // store the token in the global context
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
         setExpiresIn(expiresIn);
-        localStorage.setItem('spotify_access_token', accessToken);
-        localStorage.setItem('spotify_refresh_token', refreshToken);
-        localStorage.setItem('spotify_expires_in', expiresIn.toString());
 
         // fetch profile
         const userProfileResponse = await fetch('https://api.spotify.com/v1/me', {

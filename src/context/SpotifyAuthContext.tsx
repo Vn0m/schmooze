@@ -23,20 +23,8 @@ export const SpotifyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const [expiresIn, setExpiresIn] = useState<number>(0);
 
   useEffect(() => {
-    // load tokens and expiration time from localStorage
-    const storedAccessToken = localStorage.getItem('spotify_access_token');
-    const storedRefreshToken = localStorage.getItem('spotify_refresh_token');
-    const storedExpiresIn = localStorage.getItem('spotify_expires_in');
-
-    if (storedAccessToken) {
-      setAccessToken(storedAccessToken);
-    }
-    if (storedRefreshToken) {
-      setRefreshToken(storedRefreshToken);
-    }
-    if (storedExpiresIn) {
-      setExpiresIn(parseInt(storedExpiresIn, 10));
-    }
+    // load tokens and expiration time from context
+    // You may implement any initialization if required
   }, []);
 
   const refreshAccessToken = async () => {
@@ -65,9 +53,6 @@ export const SpotifyAuthProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
       setAccessToken(newAccessToken);
       setExpiresIn(newExpiresIn);
-
-      localStorage.setItem('spotify_access_token', newAccessToken);
-      localStorage.setItem('spotify_expires_in', newExpiresIn.toString());
     } catch (error) {
       console.error('Error refreshing access token:', error);
     }
