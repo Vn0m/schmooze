@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const { postId, userId, comment } = await req.json();
 
-    if (!postId || !userId || !comment || !comment.text) {
+    if (!postId || !userId || !comment) {
       return NextResponse.json({ error: 'Post ID, user ID, and comment text are required.' }, { status: 400 });
     }
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     // Update the post document with the new comment
     await updateDoc(postRef, {
-      comments: arrayUnion(newComment) // Add the new comment to the comments array
+      comments: arrayUnion(...[newComment]) // Add the new comment to the comments array
     });
 
     return NextResponse.json({ message: 'Comment added successfully.' });
