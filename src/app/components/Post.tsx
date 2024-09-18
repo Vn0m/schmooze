@@ -42,6 +42,7 @@ function Post({ title, content }: PostProps) {
         </svg>
         2 Comments
     </div>
+    </div>
   );
 }
 
