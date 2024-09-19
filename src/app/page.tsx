@@ -41,7 +41,7 @@ export default function Home() {
         </div>
       </div>
         <div className="relative flex flex-col bg-[#191919] rounded-lg mb-3 mt-3 h-28">
-          <input type="text" placeholder="What's on your mind?" className="rounded-lg bg-[#646464] m-3 h-10 placeholder:pl-3" ></input>
+          <input type="text" placeholder="What's on your mind?" className="rounded-lg bg-[#646464] m-3 h-10 px-5 focus:outline-none focus:outline-green-400" ></input>
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="absolute size-6 stroke-[#1DB954] bottom-5 right-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
@@ -52,9 +52,8 @@ export default function Home() {
           {/* <h2 className="text-white">Posts</h2> */}
           {posts.map(post => (
             <Post
-              key={post.id}
-              title={post.title}
-              content={post.content}
+            key={post.id}
+            postId={post.id}
             />
           ))}
         </div>
