@@ -46,7 +46,7 @@ const UserProfile = () => {
           )}
         </div>
       ) : (
-        <p>No profile data available</p>
+        <p>Loading profile...</p>
       )}
     </div>
   );
