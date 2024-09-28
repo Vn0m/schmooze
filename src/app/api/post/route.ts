@@ -23,9 +23,9 @@ export async function GET(req: NextRequest) {
 // Handle POST request
 export async function POST(req: NextRequest) {
   try {
-    const { title, content, userId } = await req.json();
+    const {content, userId } = await req.json();
 
-    if (!title || !content || !userId) {
+    if (!content || !userId) {
       return NextResponse.json({ error: 'Title, content, and userId are required.' }, { status: 400 });
     }
 
@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
     console.log(postsRef)
     const docRef = await addDoc(postsRef, {
       content: content,
-      title: title,
       time: new Date().toISOString(), // Add timestamp
       userId: userId,
       likes: 0,
@@ -50,7 +49,7 @@ export async function POST(req: NextRequest) {
       comments: []
     });
 
-    return NextResponse.json({ id: docRef.id, title, content, userId }, { status: 201 });
+    return NextResponse.json({ id: docRef.id, content, userId }, { status: 201 });
 
   } catch (error) {
     console.error('Error creating post:', error);

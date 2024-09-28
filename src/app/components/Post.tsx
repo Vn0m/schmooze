@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
+
 
 interface PostProps {
   postId: string;
@@ -14,6 +16,7 @@ const Post = ({ postId }: PostProps) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [comments, setComments] = useState<string[]>([]);
+  const { userId } = useSpotifyAuth();
 
   useEffect(() => {
     if (!postId) {
@@ -59,8 +62,7 @@ const Post = ({ postId }: PostProps) => {
 
   const date = new Date(post?.time.seconds*1000)
 
-  // Loading state while fetching post and user profile
-  if (!post || !userProfile) {
+  if (!post) {
     return <div>Loading post...</div>;
   }
 
