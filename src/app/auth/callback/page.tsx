@@ -86,6 +86,8 @@ const CallbackPage = () => {
         const customTokenData = await customTokenResponse.json();
         await signInWithCustomToken(auth, customTokenData.token);
 
+
+        // todo: add playlist, followers and following, menu bar, finish profile frontend
         // store user in firebase
         await setDoc(doc(db, 'users', userProfile.id), {
           name: userProfile.display_name,
@@ -107,10 +109,8 @@ const CallbackPage = () => {
   }, [searchParams, router, setAccessToken, setRefreshToken, setExpiresIn, setUserId]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Processing...</h1>
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-8">
+        <h1 className="text-2xl font-bold mb-4">Loading...</h1>
     </div>
   );
 };
