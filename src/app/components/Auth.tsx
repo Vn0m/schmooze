@@ -15,7 +15,7 @@ const Auth = () => {
 
   return (
     <div className="flex min-h-screen flex-row">
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 bg-white">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 bg-transparent">
         <div className="max-w-md mx-auto w-full">
           <div className="flex items-center space-x-2 mb-8">
             <span className='text-3xl'>🎵</span>
