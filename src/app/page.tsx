@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from "../../lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import Post from './components/Post';
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -27,7 +28,7 @@ export default function Home() {
 
   return (
     <main className="bg-black grid grid-cols-5 gap-8 p-4 h-full min-h-screen">
-      <div className="col-span-1 bg-[#191919] rounded-lg h-[650px]">menu bar</div>
+      <Navbar />
       <div className="col-span-3 bg-black overflow-y-auto h-[650px]">
       <div className="relative bg-[url('/header.jpg')] bg-cover w-full h-60 bg-center">
         <div className="absolute left-4 top-24 flex items-center space-x-4">
