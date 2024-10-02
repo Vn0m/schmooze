@@ -70,7 +70,7 @@ const Post = ({ postId }: PostProps) => {
     <div className='text-[#646464] bg-[#191919] rounded-lg p-3 mb-3'>
       <div className="flex space-x-3">
         <img
-          src={userProfile?.profileUrl || '/default-pfp.jpg'}
+          src={userProfile?.profileUrl || '/pfp.jpg'}
           alt="User profile"
           className="w-12 h-12 rounded-full inline"
         />
