@@ -70,9 +70,9 @@ const Post = ({ postId }: PostProps) => {
     <div className='text-[#646464] bg-[#191919] rounded-lg p-3 mb-3'>
       <div className="flex space-x-3">
         <img
-          src={userProfile?.profileUrl || '/default-pfp.jpg'}
+          src={userProfile?.images?.profileUrl || '/pfp.jpg'}
           alt="User profile"
-          className="w-12 h-12 rounded-full inline"
+          className="w-12 h-12 object-cover rounded-full inline"
         />
         <p className="">{userProfile?.name || 'Anonymous'}</p>
         <p>{date.toDateString().slice(3)}</p>
