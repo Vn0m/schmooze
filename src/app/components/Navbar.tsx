@@ -24,13 +24,13 @@ const Navbar = () => {
         <FaCompass />
         <span>Discover</span>
       </Link>
-      <Link href="/more" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
-        <FaEllipsisH />
-        <span>More</span>
-      </Link>
       <Link href="/profile" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
         <FaUser />
         <span>Profile</span>
+      </Link>
+      <Link href="/more" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+        <FaEllipsisH />
+        <span>More</span>
       </Link>
     </div>
   );

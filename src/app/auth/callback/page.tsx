@@ -87,14 +87,15 @@ const CallbackPage = () => {
         await signInWithCustomToken(auth, customTokenData.token);
 
 
-        // todo: finish profile frontend, google ouath, username email password, change profile picture
+        // todo: finish profile frontend, google ouath, username email password, change profile picture, check why anonymous pfp appears when making post
+        // todo: tabs for profile section
         // store user in firebase
         await setDoc(doc(db, 'users', userProfile.id), {
           name: userProfile.display_name,
           email: userProfile.email,
           images : {
             profileUrl: userProfile.images[0]?.url || null,
-            imageHeight: userProfile.images[0]?.height || null, // Ensure this value exists
+            imageHeight: userProfile.images[0]?.height || null,
             imageWidth: userProfile.images[0]?.width || null, 
           },
           total: userProfile.followers.total,
