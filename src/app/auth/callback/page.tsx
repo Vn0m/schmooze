@@ -87,12 +87,20 @@ const CallbackPage = () => {
         await signInWithCustomToken(auth, customTokenData.token);
 
 
-        // todo: add playlist, followers and following, menu bar, finish profile frontend
+        // todo: finish profile frontend, google ouath, username email password, change profile picture, check why anonymous pfp appears when making post
+        // todo: tabs for profile section
         // store user in firebase
         await setDoc(doc(db, 'users', userProfile.id), {
           name: userProfile.display_name,
           email: userProfile.email,
-          profileUrl: userProfile.images[0]?.url || null,
+          images : {
+            profileUrl: userProfile.images[0]?.url || null,
+            imageHeight: userProfile.images[0]?.height || null,
+            imageWidth: userProfile.images[0]?.width || null, 
+          },
+          total: userProfile.followers.total,
+          country: userProfile.country,
+          uri: userProfile.uri,
         });
 
         // redirect to homepage after sign in
