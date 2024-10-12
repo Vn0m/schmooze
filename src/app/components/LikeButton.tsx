@@ -29,17 +29,13 @@ const LikeButton = ({ postId, likes, userId, setLikes }: LikeButtonProps) => {
         const postRef = doc(db, 'posts', postId);
 
         if (isLiked) {
-            console.log('current likes:', likes);
             const updatedLikes = likes.filter((id) => id !== userId);
             updateDoc(postRef, { likes: updatedLikes });
             setLikes(updatedLikes);
-            console.log('new likes:', updatedLikes);
         } else {
-            console.log('current likes:', likes);
             const updatedLikes = [...likes, userId];
             updateDoc(postRef, { likes: updatedLikes });
             setLikes(updatedLikes);
-            console.log('new likes:', updatedLikes);
         }    
     };
 
