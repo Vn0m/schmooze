@@ -4,7 +4,7 @@ import { db } from "../../lib/firebase";
 import { collection, addDoc, getDocs, doc, getDoc, DocumentData, query, orderBy } from "firebase/firestore";
 import Post from './components/Post';
 import Navbar from "./components/Navbar";
-import Auth from './components/Auth';
+import Auth from './components/Signup';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
 
 export default function Home() {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { db, storage } from '../../../lib/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
@@ -11,20 +11,20 @@ import { FiCamera } from 'react-icons/fi';
 import { FaFan } from 'react-icons/fa';
 
 const UserProfile = () => {
-  const { userId } = useSpotifyAuth();
+  const { user } = useAuth(); 
   const [profile, setProfile] = useState<any>(null);
   const [newImage, setNewImage] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    if (!userId) {
-      console.log('No User ID available');
+    if (!user) {
+      console.log('No user data available');
       return;
     }
 
     const fetchUserProfile = async () => {
       try {
-        const userRef = doc(db, 'users', userId);
+        const userRef = doc(db, 'users', user.uid); 
         const userDoc = await getDoc(userRef);
 
         if (!userDoc.exists()) {
@@ -39,7 +39,7 @@ const UserProfile = () => {
     };
 
     fetchUserProfile();
-  }, [userId]);
+  }, [user]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -49,10 +49,10 @@ const UserProfile = () => {
   };
 
   const handleUpload = async (imageFile: File) => {
-    if (!imageFile || !userId) return;
+    if (!imageFile || !user) return;
 
     setUploading(true);
-    const storageRef = ref(storage, `profilePictures/${userId}`);
+    const storageRef = ref(storage, `profilePictures/${user.uid}`); 
 
     try {
       const uploadTask = uploadBytesResumable(storageRef, imageFile);
@@ -68,7 +68,7 @@ const UserProfile = () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           console.log("File available at:", downloadURL);
 
-          await updateDoc(doc(db, 'users', userId), {
+          await updateDoc(doc(db, 'users', user.uid), {
             'images.profileUrl': downloadURL,
             'images.imageWidth': 300,
             'images.imageHeight': 300, 
@@ -128,7 +128,7 @@ const UserProfile = () => {
               <p className="text-sm text-[#C7C7C7]">Profile</p>
               {profile ? (
                 <div>
-                  <p className="text-4xl font-semibold">{profile.name}</p>
+                  <p className="text-4xl font-semibold">{profile.username}</p>
                   <p className="text-lg text-[#C7C7C7]">{profile.country}</p>
                   <p className="text-sm mt-2 text-[#C7C7C7]">{profile.total} followers</p>
                 </div>

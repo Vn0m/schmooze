@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { FaMusic, FaHeart, FaCompass, FaEllipsisH, FaUser } from 'react-icons/fa';
+import { FaMusic, FaHeart, FaCompass, FaEllipsisH, FaUser, FaDoorOpen } from 'react-icons/fa';
 import { FaHouse } from 'react-icons/fa6';
+import LogoutButton from './LogoutButton';
 
 const Navbar = () => {
   return (
@@ -32,6 +32,7 @@ const Navbar = () => {
         <FaEllipsisH />
         <span>More</span>
       </Link>
+      <LogoutButton />
     </div>
   );
 };
