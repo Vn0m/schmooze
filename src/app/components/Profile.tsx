@@ -11,34 +11,35 @@ import { FiCamera } from 'react-icons/fi';
 import { FaFan } from 'react-icons/fa';
 
 const UserProfile = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [profile, setProfile] = useState<any>(null);
   const [newImage, setNewImage] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) {
-      console.log('No user data available');
-      return;
-    }
+    const fetchProfile = async () => {
+      if (!user?.uid) return;
 
-    const fetchUserProfile = async () => {
       try {
-        const userRef = doc(db, 'users', user.uid); 
-        const userDoc = await getDoc(userRef);
-
-        if (!userDoc.exists()) {
-          console.log('User not found in database');
+        console.log(`/api/profile/${user.uid}`);
+        const response = await fetch(`/api/profile/${user.uid}`);
+        if (!response.ok) {
+          setError('Failed to fetch profile data');
+          console.error('Failed to fetch profile:', response.statusText);
           return;
         }
 
-        setProfile(userDoc.data());
+        const profileData = await response.json();
+        setProfile(profileData);
+        setError(null);
       } catch (error) {
-        console.error('Error fetching profile from Firestore:', error);
+        setError('An error occurred while fetching the profile');
+        console.error('Error fetching profile:', error);
       }
     };
 
-    fetchUserProfile();
+    fetchProfile();
   }, [user]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,18 +53,18 @@ const UserProfile = () => {
     if (!imageFile || !user) return;
 
     setUploading(true);
-    const storageRef = ref(storage, `profilePictures/${user.uid}`); 
+    const storageRef = ref(storage, `profilePictures/${user.uid}`);
 
     try {
       const uploadTask = uploadBytesResumable(storageRef, imageFile);
-      
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-        }, 
+
+      uploadTask.on('state_changed',
+        (snapshot) => {},
         (error) => {
+          setError('Error uploading image');
           console.error('Upload failed:', error);
           setUploading(false);
-        }, 
+        },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
           console.log("File available at:", downloadURL);
@@ -71,7 +72,7 @@ const UserProfile = () => {
           await updateDoc(doc(db, 'users', user.uid), {
             'images.profileUrl': downloadURL,
             'images.imageWidth': 300,
-            'images.imageHeight': 300, 
+            'images.imageHeight': 300,
           });
 
           setProfile((prevProfile: any) => ({
@@ -87,6 +88,7 @@ const UserProfile = () => {
         }
       );
     } catch (error) {
+      setError('Error uploading file');
       console.error('Error uploading file:', error);
       setUploading(false);
     }
@@ -132,6 +134,8 @@ const UserProfile = () => {
                   <p className="text-lg text-[#C7C7C7]">{profile.country}</p>
                   <p className="text-sm mt-2 text-[#C7C7C7]">{profile.total} followers</p>
                 </div>
+              ) : error ? (
+                <p className="text-red-500 text-sm">{error}</p>
               ) : (
                 <p>Loading profile...</p>
               )}

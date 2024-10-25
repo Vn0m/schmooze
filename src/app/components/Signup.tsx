@@ -2,9 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
-import { auth, db } from '../../../lib/firebase';
 
 const Signup = () => {
   const router = useRouter();
@@ -17,57 +14,36 @@ const Signup = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!email || !username || !password || !confirmPassword) {
-      setError('All fields are required.');
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.');
-      return;
-    }
+    setError(null);
 
     try {
-      // checks if email and username already exist
-      const usernameQuery = query(
-        collection(db, 'users'),
-        where('username', '==', username)
-      );
-      const querySnapshot = await getDocs(usernameQuery);
-
-      if (!querySnapshot.empty) {
-        setError('Username is already taken.');
-        return;
-      }
-
-      const emailQuery = query(
-        collection(db, 'users'),
-        where('email', '==', email)
-      );
-      const emailSnapshot = await getDocs(emailQuery);
-
-      if (!emailSnapshot.empty) {
-        setError('Email is already used.');
-        return;
-      }
-
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      await setDoc(doc(db, 'users', user.uid), {
-        uid: user.uid,
-        email: user.email,
-        username,
-        createdAt: new Date(),
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: {
+            email,
+            username,
+            password,
+            confirmPassword,
+          },
+        }),
       });
 
-      router.push('/');
+      if (response.ok) {
+        router.push('/');
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || "Failed to sign up");
+      }
     } catch (err) {
-      setError('Failed to sign up. Try again.');
-      console.error(err);
+      console.error("Error sending the post request: ", err);
+      setError("Failed to sign up, try again.");
     }
+    // todo: profile api and login api endpoints
   };
-
   return (
     <div className="flex min-h-screen flex-row">
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 bg-white shadow-lg">

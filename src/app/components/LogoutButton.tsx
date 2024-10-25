@@ -8,10 +8,8 @@ const LogoutButton = () => {
   const { logout } = useAuth();
 
   const handleLogout = async () => {
-    const router = useRouter();
     try {
       await logout();
-      router.push('/login');
     } catch (error) {
       console.error('Logout failed:', error);
     }
