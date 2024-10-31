@@ -5,8 +5,8 @@ import { db } from "../../lib/firebase";
 import { collection, addDoc, getDocs, doc, getDoc, query, orderBy } from "firebase/firestore";
 import Post from './components/Post';
 import Navbar from "./components/Navbar";
-import Auth from './components/Auth';
 import Header from './components/Header';
+import Auth from './components/Signup';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
 import Link from 'next/link';
 
