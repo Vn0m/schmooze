@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState, FormEvent } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 
 const Auth = () => {
   const router = useRouter();
@@ -51,7 +52,7 @@ const Auth = () => {
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input
                 className='px-4 py-2 w-full border rounded-md'
-                placeholder='Should be a secret...'
+                placeholder='Your secret key...'
                 type='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -65,11 +66,12 @@ const Auth = () => {
             <button type="submit" className="w-full bg-[#9fade3] hover:bg-[#8694cb] text-white py-3 rounded-lg font-semibold transition-all">
                 Log in
             </button>
-          </form>
-
+          </form>          
+          <p className='text-gray-500 text-sm mt-4'>Dont have an account? <Link className='underline text-[#828282]' href="/signup">Sign up</Link></p>
           <div className="text-center mt-6 text-sm text-gray-500">
-            Having trouble with your account? <br />
+            <p>Having trouble with your account? <br />
             Contact support at <a href="#" className="text-[#a6b6f5] hover:underline">help.schmooze.support.com</a>
+            </p>
           </div>
         </div>
       </div>

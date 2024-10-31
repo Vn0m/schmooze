@@ -1,5 +1,8 @@
 'use client';
 
+// todo: add timeouts for loging out and signing up and validate routes for verified users
+// todo: change loading profile message for profile section
+
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
@@ -22,7 +25,6 @@ const UserProfile = () => {
       if (!user?.uid) return;
 
       try {
-        console.log(`/api/profile/${user.uid}`);
         const response = await fetch(`/api/profile/${user.uid}`);
         if (!response.ok) {
           setError('Failed to fetch profile data');

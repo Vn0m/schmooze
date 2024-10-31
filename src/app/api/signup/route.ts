@@ -13,7 +13,7 @@ export async function POST(req: NextRequest){
         if(content.password !== content.confirmPassword){
             return NextResponse.json({error: "Passwords do not match"}, {status: 404});
         }
-        // checks if email and username already exist
+      // checks if email and username already exist
       const usernameQuery = query(
         collection(db, 'users'),
         where('username', '==', content.username)

@@ -1,11 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
 
 const Signup = () => {
   const router = useRouter();
 
+  const { login } = useAuth();
   const [email, setEmail] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -33,16 +36,16 @@ const Signup = () => {
       });
 
       if (response.ok) {
+        login(email,password);
         router.push('/');
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Failed to sign up");
       }
     } catch (err) {
-      console.error("Error sending the post request: ", err);
-      setError("Failed to sign up, try again.");
+        console.error("Error sending the post request: ", err);
+        setError("Failed to sign up, try again.");
     }
-    // todo: profile api and login api endpoints
   };
   return (
     <div className="flex min-h-screen flex-row">
@@ -105,6 +108,7 @@ const Signup = () => {
               Sign up
             </button>
           </form>
+          <p className='text-gray-500 text-sm mt-4'>Already have an account? <Link className='underline text-[#828282]' href="/login">Login</Link></p>
           <div className="text-center mt-6 text-sm text-gray-500">
             Having trouble with your account? <br />
             Contact support at <a href="#" className="text-[#a6b6f5] hover:underline">help.schmooze.support.com</a>

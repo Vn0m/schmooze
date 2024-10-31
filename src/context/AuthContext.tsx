@@ -20,9 +20,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-
+  
     return () => unsubscribe();
   }, []);
+  
 
   const login = async (email: string, password: string) => {
     try {

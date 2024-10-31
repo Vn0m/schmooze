@@ -6,17 +6,22 @@ import { FaDoorOpen } from "react-icons/fa";
 
 const LogoutButton = () => {
   const { logout } = useAuth();
+  const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await logout();
+      router.push('/login');
     } catch (error) {
       console.error('Logout failed:', error);
     }
   };
 
   return (
-    <button className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg" onClick={handleLogout}><FaDoorOpen /><span>Log out</span></button>
+    <button className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg" onClick={handleLogout}>
+      <FaDoorOpen />
+      <span>Log out</span>
+    </button>
   );
 };
 
