@@ -1,10 +1,9 @@
-import React from 'react'
-import Auth from '../components/Auth'
+import Signup from '../components/Signup'
 
 const AuthPage = () => {
   return (
     <>
-       <Auth /> 
+       <Signup />
     </>
   )
 }

@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { Timestamp } from 'firebase-admin/firestore';
 
 
+
 interface PostProps {
   postId: string;
   userId: string;
