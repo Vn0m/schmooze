@@ -5,7 +5,7 @@ import { db } from "../../lib/firebase";
 import { collection, addDoc, getDocs, doc, getDoc, query, orderBy, Timestamp } from "firebase/firestore";
 import Post from './components/Post';
 import Navbar from "./components/Navbar";
-import Auth from './components/Auth';
+import Signup from './components/Signup';
 import Header from './components/Header';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
 import Link from 'next/link';
@@ -141,7 +141,7 @@ export default function Home() {
       {showAuthModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 min-h-4">
           <div className="p-6 rounded-lg shadow-lg">
-            <Auth /> 
+            <Signup /> 
           </div>
         </div>
       )}
