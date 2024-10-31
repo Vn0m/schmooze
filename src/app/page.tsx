@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { db } from "../../lib/firebase";
-import { collection, addDoc, getDocs, doc, getDoc, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, getDoc, query, orderBy, Timestamp } from "firebase/firestore";
 import Post from './components/Post';
 import Navbar from "./components/Navbar";
+import Auth from './components/Auth';
 import Header from './components/Header';
-import Auth from './components/Signup';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
 import Link from 'next/link';
+import { FaPaperPlane, FaRegPaperPlane } from 'react-icons/fa';
 
 export default function Home() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -21,16 +22,20 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const postsCollection = collection(db, 'posts');
-        const postsQuery = query(postsCollection, orderBy('time', 'desc'));
-        const snapshot = await getDocs(postsQuery);
-        const postsData = snapshot.docs.map((doc: { id: any; data: () => any; }) => ({ id: doc.id, ...doc.data() }));
-        setPosts(postsData);
-        console.log('fetched posts');
+        const response = await fetch('/api/posts', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        // console.log(data.posts); 
+        
+        setPosts(data.posts);
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error('Error fetching posts:', error);
       }
-    };
+    };    
     fetchPosts();
   }, []);
   
@@ -113,20 +118,21 @@ export default function Home() {
                 onChange={(e) => setContent(e.target.value)} 
               />
               <button onClick={handleSubmit} className="absolute bottom-5 right-5">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 stroke-[#1DB954]">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                </svg>
+                <FaRegPaperPlane color='#1DB954'/>
               </button>
             </div>
-          <div className='bg-black'>
+          <div className='bg-black grid gap-3'>
             {posts.map(post => (
-              <Link
+              <Post 
                 key={post.id}
-                href={`/post/${post.id}`}
-                className="text-white flex items-center hover:bg-transparent rounded-lg "
-              >
-              <Post postId={post.id} />
-              </Link>
+                postId={post.id} 
+                userId={post.userId} 
+                comments={post.comments} 
+                content={post.content}
+                dislikes={post.dislikes} 
+                likes={post.likes} 
+                time={post.time} 
+              />
             ))}
           </div>
         </div>
