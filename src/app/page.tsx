@@ -1,11 +1,14 @@
 'use client'
+
 import React, { useEffect, useState } from 'react';
 import { db } from "../../lib/firebase";
-import { collection, addDoc, getDocs, doc, getDoc, DocumentData, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, getDoc, query, orderBy } from "firebase/firestore";
 import Post from './components/Post';
 import Navbar from "./components/Navbar";
+import Header from './components/Header';
 import Auth from './components/Signup';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
+import Link from 'next/link';
 
 export default function Home() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -76,8 +79,8 @@ export default function Home() {
         content,
         userId: userId, // Include the userId in the post
         time: new Date(),  // Include the time when the post is created
-        likes: 0,
-        dislikes: 0,
+        likes: [],
+        dislikes: [],
         comments: [],
       });
 
@@ -86,13 +89,13 @@ export default function Home() {
       setErrorMessage(null);
 
       // Refetch posts to include the new post
-      const snapshot = await getDocs(postsCollection);
+      const postsQuery = query(postsCollection, orderBy('time', 'desc'));
+      const snapshot = await getDocs(postsQuery);
       const postsData = snapshot.docs.map((doc: { id: any; data: () => any; }) => ({ id: doc.id, ...doc.data() }));
       setPosts(postsData);
 
     } catch (error) {
       console.error("Error adding post:", error);
-
     }
   };
 
@@ -100,16 +103,7 @@ export default function Home() {
     <main className="bg-black grid grid-cols-5 gap-8 p-4 h-full min-h-screen">
       <Navbar />
       <div className="col-span-3 bg-black overflow-y-auto h-[650px]">
-        <div className="relative bg-[url('/header.jpg')] bg-cover w-full h-60 bg-center">
-          <div className="absolute left-4 top-24 flex items-center space-x-4">
-            <img src={userProfile?.profileUrl || '/pfp.jpg'} alt="User Profile" className="w-32 h-32 rounded-full" />
-            <div className="flex flex-col">
-              <p className="text-[#C7C7C7]">Dashboard</p>
-              <h1 className="text-white font-semibold text-[35px]">{userProfile?.name || 'Anonymous'}</h1>
-              <p className="text-[#C7C7C7] text-[12px]">3 Public Playlists • 13 followers • 19 following</p>
-            </div>
-          </div>
-        </div>
+        <Header userProfile={userProfile} />
             <div className="relative flex flex-col bg-[#191919] rounded-lg mb-3 mt-3 h-28">
               <input
                 type="text"
@@ -124,20 +118,23 @@ export default function Home() {
                 </svg>
               </button>
             </div>
-        <div>
-          {posts.map(post => (
-            <Post
-              key={post.id}
-              postId={post.id}
-            />
-          ))}
+          <div className='bg-black'>
+            {posts.map(post => (
+              <Link
+                key={post.id}
+                href={`/post/${post.id}`}
+                className="text-white flex items-center hover:bg-transparent rounded-lg "
+              >
+              <Post postId={post.id} />
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
       <div className="col-span-1 bg-[#191919] rounded-lg h-[650px]">friends</div>
 
       {showAuthModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 min-h-4">
-          <div className="bg-transparent p-6 rounded-lg shadow-lg">
+          <div className="p-6 rounded-lg shadow-lg">
             <Auth /> 
           </div>
         </div>
