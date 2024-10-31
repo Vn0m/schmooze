@@ -4,20 +4,23 @@ import { collection, addDoc, getDocs, getDoc, doc, deleteDoc, setDoc } from 'fir
 import { db } from '../../../../../lib/firebase'; 
 
 // Handle GET request
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, { params }: { params: { postId: string } }) {
     try {
-        const { searchParams } = new URL(req.url);
-        const postId = searchParams.get('postId'); 
+        const { postId } = params;
 
-        const postsRef = collection(db, 'posts');
-        const snapshot = await getDocs(postsRef);
+        if(postId) {
+            const postsRef = doc(db, 'posts', postId);
+            const snapshot = await getDoc(postsRef);
 
-        const posts = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-        }));
-
-        return NextResponse.json({ posts });
+            if (snapshot.exists()) {
+              const post = { id: postId, ...snapshot.data() }; 
+              return NextResponse.json({ post });
+            } else {
+              return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+            }
+        } else {
+            return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+        }
     } catch (error) {
         console.error('Error fetching posts:', error);
         return NextResponse.json({ error: 'Error fetching posts' }, { status: 500 });

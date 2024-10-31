@@ -5,9 +5,9 @@ interface HeaderProps {
       images?: { profileUrl: string };
       name?: string;
     };
-  }
+}
 
-  const Header = ({ userProfile }: HeaderProps) => {
+const Header = ({ userProfile }: HeaderProps) => {
     return(
         <div className="relative bg-[url('/header.jpg')] bg-cover w-full h-60 bg-center">
             <div className="absolute left-4 top-24 flex items-center space-x-4">
