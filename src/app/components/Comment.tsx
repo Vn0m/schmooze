@@ -40,7 +40,7 @@ const Comment = ({ commentId, userId, time, content, likes, dislikes }: CommentP
           alt="User profile"
           className="w-10 h-10 object-cover rounded-full"
         />
-        <p>{userProfile?.name || 'Anonymous'}</p>
+        <p>{userProfile?.username || 'Anonymous'}</p>
         <p>{date ? date.toDateString() : 'Date unavailable'}</p>
       </div>
       <p className='p-1 pt-3 text-white'>{content || 'No content available'}</p>

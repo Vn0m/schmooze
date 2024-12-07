@@ -10,14 +10,17 @@ import Header from './components/Header';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
 import Link from 'next/link';
 import { FaPaperPlane, FaRegPaperPlane } from 'react-icons/fa';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
   const [posts, setPosts] = useState<any[]>([]);
   const [content, setContent] = useState<string>(''); // State for content input
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { userId } = useSpotifyAuth();
+  // const { userId } = useSpotifyAuth();
   const [userProfile, setProfile] = useState<any>(null);
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const { user } = useAuth();
+  const userId = user?.uid;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -29,7 +32,6 @@ export default function Home() {
           }
         });
         const data = await response.json();
-        // console.log(data.posts); 
         
         setPosts(data.posts);
       } catch (error) {
@@ -37,24 +39,28 @@ export default function Home() {
       }
     };    
     fetchPosts();
-  }, []);
+  }, [user]);
   
   useEffect(() => {
+    
     if (!userId) {
       console.log('No User ID available');
       return;
-    }
+    } 
+
+    console.log("user ID", userId);
+    // console.log("uid", uid);
 
     const fetchUserProfile = async () => {
       try {
         const userRef = doc(db, 'users', userId);
         const userDoc = await getDoc(userRef);
+        console.log("user firebase", userDoc);
 
         if (!userDoc.exists()) {
           console.log('Not in db');
           return;
         }
-
         setProfile(userDoc.data());
       } catch (error) {
         console.error('Error fetching profile from Firestore:', error);
@@ -62,7 +68,7 @@ export default function Home() {
     };
 
     fetchUserProfile();
-  }, [userId]);
+  }, [user]);
 
   // Handle post submission
   const handleSubmit = async (e: React.FormEvent) => {

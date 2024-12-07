@@ -9,8 +9,6 @@ import CommentButton from './CommentButton';
 import Link from 'next/link';
 import { Timestamp } from 'firebase-admin/firestore';
 
-
-
 interface PostProps {
   postId: string;
   userId: string;
@@ -41,7 +39,6 @@ const Post: React.FC<PostProps> = ({ postId, userId, comments, content, dislikes
         const userDoc = await getDoc(userRef);
 
         if (!userDoc.exists()) {
-          console.log('Not in db');
           return;
         }
 
@@ -63,7 +60,7 @@ const Post: React.FC<PostProps> = ({ postId, userId, comments, content, dislikes
             alt="User profile"
             className="w-12 h-12 object-cover rounded-full inline"
           />
-          <p className="">{userProfile?.name || 'Anonymous'}</p>
+          <p className="">{userProfile?.username || 'Anonymous'}</p>
           <p>{date ? date.toDateString() : 'Date unavailable'}</p>
         </div>
         <Link
