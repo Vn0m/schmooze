@@ -52,8 +52,8 @@ const Post: React.FC<PostProps> = ({ postId, userId, comments, content, dislikes
   }, [userId]);
 
   return (
-    <div className={`text-[#646464] bg-black w-full h-full ${className}`}>
-      <div className='bg-[#191919] rounded-lg p-3'>
+    <div className={`text-[#646464] bg-transparent w-full h-full ${className}`}>
+      <div className='bg-slate-300 rounded-lg pt-8 pl-8'>
         <div className="flex space-x-3">
           <img
             src={userProfile?.images?.profileUrl || '/pfp.jpg'}
@@ -66,7 +66,7 @@ const Post: React.FC<PostProps> = ({ postId, userId, comments, content, dislikes
         <Link
                 key={postId}
                 href={`/post/${postId}`}
-                className="text-white flex items-center hover:bg-transparent rounded-lg "
+                className="text-slate-400 flex items-center hover:bg-transparent rounded-lg "
               >
         <p className='p-1 pt-3'>{content || 'No content available'}</p>
         </Link>

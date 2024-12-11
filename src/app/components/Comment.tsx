@@ -33,7 +33,7 @@ const Comment = ({ commentId, userId, time, content, likes, dislikes }: CommentP
   }, [userId]);
 
   return (
-    <div className="text-sm text-[#646464] bg-[#191919] rounded-lg p-3 gap-x-3 flex-col">
+    <div className="text-sm text-[#646464] bg-transparent rounded-lg p-3 gap-x-3 flex-col">
       <div className="flex space-x-3">
         <img
           src={userProfile?.images?.profileUrl || '/pfp.jpg'}
@@ -43,7 +43,7 @@ const Comment = ({ commentId, userId, time, content, likes, dislikes }: CommentP
         <p>{userProfile?.username || 'Anonymous'}</p>
         <p>{date ? date.toDateString() : 'Date unavailable'}</p>
       </div>
-      <p className='p-1 pt-3 text-white'>{content || 'No content available'}</p>
+      <p className='p-1 pt-3 text-slate-400'>{content || 'No content available'}</p>
       <div className='flex flex-row space-x-5'>
           {/* <LikeButton postId={postId} likes={likes} setLikes={setLikes} userId={userId} />
           <CommentButton postId={postId} comments={comments} /> */}

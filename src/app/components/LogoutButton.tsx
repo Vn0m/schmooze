@@ -18,7 +18,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <button className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg" onClick={handleLogout}>
+    <button className="text-gray-700 flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg" onClick={handleLogout}>
       <FaDoorOpen />
       <span>Log out</span>
     </button>

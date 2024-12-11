@@ -61,46 +61,46 @@ const PostPage = ({ params }: { params: { postId: string } }) => {
       }, [postId]);
 
     return (
-        <div className="bg-black grid grid-cols-5 gap-8 p-4 h-full min-h-screen text-lg">
+        <div className="bg-white grid grid-cols-5 gap-8 h-full min-h-screen text-lg">
             <Navbar />
-            <div className="col-span-3 bg-black overflow-y-auto h-full rounded-lg">
-                <div>
-                    {post ? ( 
-                        <Post 
-                            key={post.id}
-                            postId={post.id} 
-                            userId={post.userId} 
-                            comments={post.comments} 
-                            content={post.content}
-                            dislikes={post.dislikes} 
-                            likes={post.likes} 
-                            time={post.time} 
-                        />
-                    ) : (
-                        <p>Loading...</p> 
-                    )}
-                    <CommentForm/>
-                    <div className='bg-[#191919] rounded-lg p-3 mb-3 gap-y-3'>
-                      {comments.length === 0 ? (
-                        <p>No comments available.</p>
-                      ) : (
-                        comments.map((comment) => (
-                          <Comment
-                            key={comment.commentId}
-                            commentId={comment.commentId}
-                            userId={comment.userId}
-                            time={comment.time}
-                            content={comment.content}
-                            likes={comment.likes}
-                            dislikes={comment.dislikes}
-                          />
-                        ))
-                      )}
-                    </div>
-                </div>
+            <div className="col-span-3 bg-transparent overflow-y-auto h-full rounded-lg m-4">
+              <div className="bg-slate-300 min-h-screen">
+                {post ? (
+                  <Post
+                    key={post.id}
+                    postId={post.id}
+                    userId={post.userId}
+                    comments={post.comments}
+                    content={post.content}
+                    dislikes={post.dislikes}
+                    likes={post.likes}
+                    time={post.time}
+                  />
+                ) : (
+                  <p>Loading...</p>
+                )}
+
+                <CommentForm />
+
+                {comments.length === 0 ? (
+                  <p>No comments available.</p>
+                ) : (
+                  comments.map((comment) => (
+                    <Comment
+                      key={comment.commentId}
+                      commentId={comment.commentId}
+                      userId={comment.userId}
+                      time={comment.time}
+                      content={comment.content}
+                      likes={comment.likes}
+                      dislikes={comment.dislikes}
+                    />
+                  ))
+                )}
+              </div>
             </div>          
-            <div className="col-span-1 bg-[#191919] rounded-lg h-full">
-                Friends
+            <div className="col-span-1 bg-[#a8afd1] h-full">
+                
             </div>
         </div>
     );

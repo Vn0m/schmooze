@@ -10,40 +10,40 @@ const Navbar = () => {
   const { user } = useAuth();
 
   return (
-    <div className="flex flex-col space-y-4 p-4 bg-[#191919] rounded-lg">
-      <Link href="/" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+    <div className="flex col-span-1 flex-col space-y-4 bg-transparent p-5">
+      <Link href="/" className="text-gray-700 text-l flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg">
         <FaHouse />
         <span>Home</span>
       </Link>
 
       {user && (
         <>
-          <Link href="/library" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+          <Link href="/library" className="text-gray-700 text-l flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg">
             <FaMusic />
             <span>Library</span>
           </Link>
-          <Link href="/liked-songs" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+          <Link href="/liked-songs" className="text-gray-700 text-l flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg">
             <FaHeart />
             <span>Liked Songs</span>
           </Link>
-          <Link href="/discover" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+          <Link href="/discover" className="text-gray-700 text-l flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg">
             <FaCompass />
             <span>Discover</span>
           </Link>
-          <Link href="/profile" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+          <Link href="/profile" className="text-gray-700 text-l flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg">
             <FaUser />
             <span>Profile</span>
           </Link>
         </>
       )}
       
-      <Link href="/more" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+      <Link href="/more" className="text-gray-700 text-l flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg">
         <FaEllipsisH />
         <span>More</span>
       </Link>
 
       {!user &&
-      <Link href="/login" className="text-white flex items-center space-x-2 hover:bg-[#333] p-2 rounded-lg">
+      <Link href="/login" className="text-gray-700 text-l flex items-center space-x-2 hover:bg-[#9fade3] p-2 rounded-lg">
         <FaDoorOpen />
         <span>Login</span>
       </Link>
