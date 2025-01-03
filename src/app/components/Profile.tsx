@@ -12,8 +12,17 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import Navbar from './Navbar';
 import { FiCamera } from 'react-icons/fi';
 import { FaFan } from 'react-icons/fa';
+import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
+import { FaSpotify } from 'react-icons/fa';
+
 
 const UserProfile = () => {
+  const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
+  const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI!;
+  const scope = 'user-read-email user-read-private';  
+  const { accessToken } = useSpotifyAuth(); 
+  const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+
   const { user } = useAuth();
   const [profile, setProfile] = useState<any>(null);
   const [newImage, setNewImage] = useState<File | null>(null);
@@ -132,7 +141,12 @@ const UserProfile = () => {
               <p className="text-sm text-[#C7C7C7]">Profile</p>
               {profile ? (
                 <div>
+                  <div className='flex space-x-5 items-center'>
                   <p className="text-4xl font-semibold">{profile.username}</p>
+                  <a href={authUrl} target="_blank" rel="noopener noreferrer">
+                    <FaSpotify className="text-green-500 cursor-pointer hover:scale-110 transition-transform" size={24} />
+                  </a>
+                  </div>
                   <p className="text-lg text-[#C7C7C7]">{profile.country}</p>
                   <p className="text-sm mt-2 text-[#C7C7C7]">{profile.total} followers</p>
                 </div>

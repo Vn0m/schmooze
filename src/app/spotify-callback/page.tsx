@@ -3,9 +3,9 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
-import { auth } from '../../../../lib/firebase';
+import { auth } from '../../../lib/firebase';
 import { signInWithCustomToken } from 'firebase/auth';
-import { db } from '../../../../lib/firebase';
+import { db } from '../../../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
