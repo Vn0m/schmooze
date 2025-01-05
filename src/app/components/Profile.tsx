@@ -183,8 +183,8 @@ const UserProfile = () => {
           <div className="space-y-4">
             {/* Example post */}
             <div className="bg-[#191919] p-4 rounded-lg flex flex-col">
-              <p className="text-white text-lg">Recent Album Release: "New Beginnings"</p>
-              <p className="text-[#C7C7C7] text-sm mt-2">Some details about this release...</p>
+              <p className="text-white text-lg">Recent Album Release: "wow"</p>
+              <p className="text-[#C7C7C7] text-sm mt-2">Some details...</p>
             </div>
             {/* Add more posts here */}
           </div>
