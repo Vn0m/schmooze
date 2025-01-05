@@ -15,7 +15,6 @@ import { FaFan } from 'react-icons/fa';
 import { useSpotifyAuth } from '@/context/SpotifyAuthContext';
 import { FaSpotify } from 'react-icons/fa';
 
-
 const UserProfile = () => {
   const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
   const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI!;
@@ -106,15 +105,19 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="bg-black grid grid-cols-5 gap-8 p-4 h-full min-h-screen">
+    <div className="bg-black grid grid-cols-6 gap-8 p-4 h-full min-h-screen">
+      {/* Sidebar */}
       <Navbar />
-      <div className="col-span-3 bg-black overflow-y-auto h-[650px]">
-        <div className="relative bg-[url('/header.jpg')] bg-cover w-full h-60 bg-center">
+
+      {/* Main Content Area */}
+      <div className="col-span-5 bg-black overflow-y-auto h-[650px] px-8">
+        {/* Cover Image Section */}
+        <div className="relative bg-[url('/header.jpg')] bg-cover w-full h-80 bg-center rounded-lg">
           <div className="absolute left-8 bottom-6 flex items-center space-x-6">
             <div className="relative group w-40 h-40">
               {profile?.images?.profileUrl ? (
                 <Image
-                  className="w-40 h-40 object-cover rounded-full shadow-lg"
+                  className="w-40 h-40 object-cover rounded-full shadow-lg transition-all transform hover:scale-105"
                   src={profile.images.profileUrl}
                   width={profile.images.imageWidth}
                   height={profile.images.imageHeight}
@@ -142,10 +145,10 @@ const UserProfile = () => {
               {profile ? (
                 <div>
                   <div className='flex space-x-5 items-center'>
-                  <p className="text-4xl font-semibold">{profile.username}</p>
-                  <a href={authUrl} target="_blank" rel="noopener noreferrer">
-                    <FaSpotify className="text-green-500 cursor-pointer hover:scale-110 transition-transform" size={24} />
-                  </a>
+                    <p className="text-4xl font-semibold">{profile.username}</p>
+                    <a href={authUrl} target="_blank" rel="noopener noreferrer">
+                      <FaSpotify className="text-green-500 cursor-pointer hover:scale-110 transition-transform" size={24} />
+                    </a>
                   </div>
                   <p className="text-lg text-[#C7C7C7]">{profile.country}</p>
                   <p className="text-sm mt-2 text-[#C7C7C7]">{profile.total} followers</p>
@@ -158,11 +161,35 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        <div className="bg-[#191919] rounded-lg h-[400px] mt-3">
+
+        {/* Profile Stats and Actions */}
+        <div className="bg-[#191919] p-4 mt-6 rounded-lg">
+          <div className="flex justify-between items-center text-white">
+            <div className="space-y-2">
+              <p className="text-xl font-bold">Activity Stats</p>
+              <p className="text-sm text-[#C7C7C7]">Recent Posts</p>
+              <p className="text-sm text-[#C7C7C7]">Following: {profile?.following}</p>
+              <p className="text-sm text-[#C7C7C7]">Posts: {profile?.posts}</p>
+            </div>
+            <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-all">
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
+        {/* User's Recent Activity (Posts, etc.) */}
+        <div className="mt-6">
+          <p className="text-white text-xl font-bold mb-4">Recent Activity</p>
+          <div className="space-y-4">
+            {/* Example post */}
+            <div className="bg-[#191919] p-4 rounded-lg flex flex-col">
+              <p className="text-white text-lg">Recent Album Release: "New Beginnings"</p>
+              <p className="text-[#C7C7C7] text-sm mt-2">Some details about this release...</p>
+            </div>
+            {/* Add more posts here */}
+          </div>
         </div>
       </div>
-
-      <div className="col-span-1 bg-[#191919] rounded-lg h-[650px]">Friends</div>
     </div>
   );
 };
